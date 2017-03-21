@@ -10,6 +10,8 @@ namespace mongo.NET
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("Hello mongoDB .NET!");
+            Console.ReadKey();
         }
     }
 }

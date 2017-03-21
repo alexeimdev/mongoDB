@@ -1,0 +1,9 @@
+{
+  "name": "mongo-node",
+  "version": "0.0.0",
+  "description": "mongoNode",
+  "main": "app.js",
+  "author": {
+    "name": "alexeim"
+  }
+}
