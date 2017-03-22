@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 
 namespace mongo.NET
 {
@@ -10,8 +6,7 @@ namespace mongo.NET
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello mongoDB .NET!");
-            Console.ReadKey();
+            
         }
     }
 }
