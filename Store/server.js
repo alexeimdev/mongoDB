@@ -1,8 +1,38 @@
-'use strict';
-var http = require('http');
-var port = process.env.PORT || 1337;
+var express = require('express'),
+    app = express(),
+    engines = require('consolidate'),
+    bodyParser = require('body-parser'),
+    MongoClient = require('mongodb').MongoClient,
+    assert = require('assert');
 
-http.createServer(function (req, res) {
-    res.writeHead(200, { 'Content-Type': 'text/plain' });
-    res.end('Hello World\n');
-}).listen(port);
+app.engine('html', engines.vash);
+app.set('view engine', 'html');
+app.set('views', __dirname + '/views');
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.get('/', function (req, res, next) {
+    res.render('index', {});
+});
+
+app.post('/add_movie', function (req, res, next) {
+    var pTitle = req.body.title;
+    var pYear = req.body.year;
+    var pImdb = req.body.imdb;
+
+    var connectionString = "mongodb://localhost:27017";
+    var dbName = "video";
+    var collectionName = "movies";
+
+    MongoClient.connect(connectionString + "/" + dbName, function (err, db) {
+        db.collection(collectionName, function (err, collection) {
+            var insertResult = collection.insertOne({ title: pTitle, year: pYear, imdb, pImdb }, function () {
+                collection.find({ "_id": insertResult._id }).toArray(function (err, items) {
+                    var result = JSON.stringify(items);
+                    res.render('movies', { result });
+                });
+            });
+        });
+    });
+});
+
+app.listen(2000);

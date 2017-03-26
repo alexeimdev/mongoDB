@@ -5,5 +5,13 @@
   "main": "server.js",
   "author": {
     "name": "alexeim"
+  },
+  "dependencies": {
+    "assert": "^1.4.1",
+    "mongodb": "^2.2.25",
+    "body-parser": "^1.17.1",
+    "consolidate": "^0.14.5",
+    "express": "^4.15.2",
+    "vash": "^0.12.2"
   }
 }
