@@ -23,16 +23,24 @@ app.post('/add_movie', function (req, res, next) {
     var dbName = "video";
     var collectionName = "movies";
 
-    MongoClient.connect(connectionString + "/" + dbName, function (err, db) {
-        db.collection(collectionName, function (err, collection) {
-            var insertResult = collection.insertOne({ title: pTitle, year: pYear, imdb, pImdb }, function () {
-                collection.find({ "_id": insertResult._id }).toArray(function (err, items) {
+    getCollection(connectionString, dbName, collectionName, function (collection) {
+        insertResult = collection.insertOne({ title: pTitle, year: pYear, imdb: pImdb })
+            .then(function (item) {
+                collection.find({ _id: item.insertedId }).toArray(function (err, items) {
                     var result = JSON.stringify(items);
                     res.render('movies', { result });
                 });
             });
-        });
     });
 });
+
+
+function getCollection(connectionString, dbName, collectionName, callback) {
+    MongoClient.connect(connectionString + "/" + dbName, function (err, db) {
+        db.collection(collectionName, function (err, collection) {
+            callback(collection);
+        });
+    });
+}
 
 app.listen(2000);
