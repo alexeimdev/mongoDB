@@ -37,6 +37,9 @@ namespace M101DotNet.WebApp.Controllers
             // XXX WORK HERE
             // fetch a user by the email in model.Email
 
+            var user = await blogContext.Users.Find(x => x.Email == model.Email).SingleOrDefaultAsync();
+
+
             if (user == null)
             {
                 ModelState.AddModelError("Email", "Email address has not been registered.");
@@ -85,6 +88,17 @@ namespace M101DotNet.WebApp.Controllers
             var blogContext = new BlogContext();
             // XXX WORK HERE
             // create a new user and insert it into the database
+
+            var isUserExists = await blogContext.Users.Find(x => x.Email == model.Email).SingleOrDefaultAsync() != null;
+
+            if (!isUserExists)
+            {
+                var res = blogContext.Users.InsertOneAsync(new User
+                {
+                    Name = model.Name,
+                    Email = model.Email
+                });
+            }
 
             return RedirectToAction("Index", "Home");
         }
