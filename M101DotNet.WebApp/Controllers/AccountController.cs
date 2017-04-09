@@ -39,7 +39,10 @@ namespace M101DotNet.WebApp.Controllers
 
             var user = await blogContext.Users.Find(x => x.Email == model.Email).SingleOrDefaultAsync();
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/master
             if (user == null)
             {
                 ModelState.AddModelError("Email", "Email address has not been registered.");
